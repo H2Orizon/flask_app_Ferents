@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+.main {
+    flex: 1;
+    padding: 20px;
+}
+footer{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background-color: blue;
+    color: aliceblue;
+    font-family: initial;
+}
+.nav-link:hover{
+    color: aliceblue;
+    background-color: blue;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 85% 15%;
+    height: 100%;
+}
+.left {
+    text-align: right;
+    padding: 20px;
+}
+.right {
+    padding: 20px;
+}
