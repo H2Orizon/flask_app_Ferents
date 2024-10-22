@@ -21,23 +21,6 @@ def admin():
     print(to_url)
     return redirect(to_url)
 
-posts = [
-    {"id": 1, 'title': 'My First Post', 'content': 'This is the content of my first post.', 'author': 'John Doe'},
-    {"id": 2, 'title': 'Another Day', 'content': 'Today I learned about Flask macros.', 'author': 'Jane Smith'},
-    {"id": 3, 'title': 'Flask and Jinja2', 'content': 'Jinja2 is powerful for templating.', 'author': 'Mike Lee'}
-]
-
-@app.route('/posts') 
-def get_posts():
-    return render_template("post.html", posts=posts)
-
-@app.route('/post/<int:id>') 
-def get_detail_posts(id):
-    post = posts[id-1]
-    if id > 3:
-        abort(404)
-    return render_template("detail_post.html", post=post)
-
 @app.route('/resume')
 def resume():
     return render_template("resume.html")
