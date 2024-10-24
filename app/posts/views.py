@@ -7,7 +7,7 @@ posts = [
     {"id": 3, 'title': 'Flask and Jinja2', 'content': 'Jinja2 is powerful for templating.', 'author': 'Mike Lee'}
 ]
 
-@post_bp.route('/') 
+@post_bp.route('/')
 def get_posts():
     return render_template("post.html", posts=posts)
 
