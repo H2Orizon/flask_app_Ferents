@@ -1,6 +1,10 @@
 <nav class="nav nav-pills nav-fill mt-1">
+    <a class="nav-link" href="../" >Main</a>
     <a class="nav-link" href="../resume">Resume</a>
     <a class="nav-link" href="../homepage">Homepage</a>
     <a class="nav-link" href="../post">Posts</a>
-    <a class="nav-link disabled" >Disabled</a>
+    <a class="nav-link" href="../user/login">Login</a>
+    <a class="nav-link" href="../user/profile" >Profile</a>
+    <a class="nav-link" href="{{ url_for('user.set_color_scheme', scheme='light') }}" class="light-button">Світла схема</a>
+    <a class="nav-link" href="{{ url_for('user.set_color_scheme', scheme='dark') }}" class="dark-button">Темна схема</a>
 </nav>

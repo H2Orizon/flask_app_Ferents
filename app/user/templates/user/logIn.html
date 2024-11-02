@@ -2,8 +2,27 @@
 
 {% block title%}profile{% endblock %}
 {% block content%}
-    <form action="" method="post">
-        Імя: <input type="text" name="login">
-        <input type="submit" value="увійти">
+{% with msg = get_flashed_messages() %}
+{% if msg %}
+{% for message in msg %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>{{ message }}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div class="position-absolute top-50 start-50 translate-middle">
+    <form class="log_form p-5" method="post">
+        <div class="mb-3">
+        <label class="form-label">Імя</label>
+        <input name="login" type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input name="password" type="password" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Увійти</button>
     </form>
+</div>
 {% endblock %}

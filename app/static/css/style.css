@@ -33,3 +33,20 @@ footer{
 .nav-hi{
     background-color: rgba(169, 169, 169, 0.801);
 }
+.log_form{
+    background-color: rgba(169, 169, 169, 0.25);
+}
+.w-1{
+    width: 5%;
+}
+body.light-scheme {
+    background-color: #ffffff;
+    color: #000000;
+}
+body.dark-scheme {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.light-button { background-color: #4CAF50; }
+.dark-button { background-color: #555; }

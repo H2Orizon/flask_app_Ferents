@@ -2,6 +2,67 @@
 
 {% block title%}profile{% endblock %}
 {% block content%}
-    <h1>hi, {{user_name}}</h1>
-    <a href="{{url_for('user.logout')}}">logout</a>
+{% with msg = get_flashed_messages() %}
+{% if msg %}
+{% for message in msg %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>{{ message }}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+    <h1>Ласкаво просимо, {{user_name}}</h1>
+    <a class="btn w-1 btn-danger" href="{{url_for('user.logout')}}">logout</a>
+    <h1>Додати кукі:</h1>
+    <form method="post" name="add_cookie">
+      <div class="mb-3">
+        <label class="form-label">Ключ кукі:</label>
+        <input type="text" name="cookie_id" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Значення кукі:</label>
+        <input type="text" name="cookie_value" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Термін дії в секунадах:</label>
+        <input type="text" name="cookie_life_time" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-success">Додати кукі</button>
+    </form>
+    <h1>Видалити кукі за ключем:</h1>
+    <form method="post" name="delet_cookie">
+      <div class="mb-3">
+        <label class="form-label">Ввидіть ключ для кукі</label>
+        <input type="text" class="form-control" name="cookie_key">
+      </div>  
+      <button type="submit" class="btn btn-warning">Видалити кукі за ключем</button>
+    </form>
+    <h1>Видалити всі кукі:</h1>
+    <form method="post" name="delet_all_cookie">
+      <div class="mb-3">
+        <button type="submit" name="delet_all_cookie" class="btn btn-danger">Видалити всі кукі</button>
+      </div>
+    </form>
+    <h3>Поточні кукі</h3>
+    <table border="1">
+        <tr>
+            <th>Ключ</th>
+            <th>Значення</th>
+        </tr>
+        {% for key, value in request.cookies.items() %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
 {% endblock %}
