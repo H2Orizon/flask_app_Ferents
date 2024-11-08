@@ -13,3 +13,6 @@ def home():
 @app.route('/resume')
 def resume():
     return render_template("resume.html")
+@app.errorhandler(404)
+def pege_not_found():
+    return render_template("404.html"), 404
