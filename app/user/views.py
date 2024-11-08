@@ -18,14 +18,14 @@ def get_profile():
             response.set_cookie(key,value,max_age=max_age)
             flash(f'Кукі "{key}" успішно додано.', 'success')
             return response
-        
+
         if request.method == "POST" and "cookie_key" in request.form:
             key = request.form["cookie_key"]
             response = make_response(redirect(url_for("user.get_profile")))
             response.set_cookie(key,'',max_age=0)
             flash(f'Кукі "{key}" успішно видалино.', 'success')
             return response
-        
+
         if request.method == "POST" and "delet_all_cookie" in request.form:
             response = make_response(redirect(url_for("user.get_profile")))
             for keys in request.cookies.keys():
