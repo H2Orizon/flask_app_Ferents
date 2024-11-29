@@ -3,7 +3,8 @@ import os
 from flask import session, render_template, abort, flash, url_for, redirect
 from . import post_bp
 from .forms import PostForm
-from .models import Post
+from .models import Post, Tag
+from app.user.models import User
 from app import db
 
 def load_posts():
@@ -19,21 +20,25 @@ def save_posts(posts):
 @post_bp.route('/add_post', methods=["GET","POST"])
 def add_post():
     form = PostForm()
+    form.author_id.choices = [(author.id, author.username) for author in User.query.all()]
+    form.tags.choices = [(tag.id, tag.name) for tag in Tag.query.all()]
     if form.validate_on_submit():
         title = form.title.data
         content = form.content.data
         is_active = form.is_active.data
         category = form.category.data
         date = form.publish_date.data
-        author = session.get("user","annonym")
+        author_id = form.author_id.data
 
         post_new = Post(title=title, 
                         content=content, 
                         category=category,
                         is_active = is_active,
-                        author=author,
+                        author=User.query.get(author_id),
                         date = date
                         )
+        selected_tags = Tag.query.filter(Tag.id.in_(form.tags.data)).all()
+        post_new.tags.extend(selected_tags)
         db.session.add(post_new)
         print("Post added to session")
         db.session.commit()
@@ -72,6 +77,11 @@ def edit_post(id):
         post.is_active = form.is_active.data
         post.category = form.category.data
         post.date = form.publish_date.data
+        post.tags = []
+        for tag_id in form.tags.data:
+            tag = Tag.query.get(tag_id)
+            if tag:
+                post.tags.append(tag)
         db.session.commit()
         flash('Post updated succsessfully')
         return redirect(url_for(".get_posts"))

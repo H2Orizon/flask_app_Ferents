@@ -10,6 +10,8 @@
         {{ render_field(form.is_active,"form-check-input") }}
         {{ render_field(form.publish_date,"form-date") }}
         {{ render_field(form.category,"form-control") }}
+        {{ render_field(form.author_id,"form-control") }}
+        {{ render_field(form.tags,"") }}
         {{ form.submit(class="btn btn-primary") }}
     </form>
     <a href="{{ url_for(".get_posts") }}">Назад</a>

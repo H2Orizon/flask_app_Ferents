@@ -2,6 +2,7 @@ from flask import request, session, redirect, url_for,render_template, make_resp
 from flask import flash
 from . import user_bp
 from datetime import timedelta, datetime
+from .models import User
 
 @user_bp.route("/profile", methods=['GET','POST'])
 def get_profile():
