@@ -1,10 +1,42 @@
-<nav class="nav nav-pills nav-fill">
-    <a class="nav-link" href="../" >Main</a>
-    <a class="nav-link" href="../resume">Resume</a>
-    <a class="nav-link" href="../homepage">Homepage</a>
-    <a class="nav-link" href="../post">Posts</a>
-    <a class="nav-link" href="../user/login">Login</a>
-    <a class="nav-link" href="../user/profile" >Profile</a>
-    <a class="nav-link" href="{{ url_for('user.set_color_scheme', scheme='light') }}" class="light-button">Світла схема</a>
-    <a class="nav-link" href="{{ url_for('user.set_color_scheme', scheme='dark') }}" class="dark-button">Темна схема</a>
-</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../">My Website</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="../">Main</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../resume">Resume</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../homepage">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../post">Posts</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          {% if current_user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('user.get_profile') }}">Мій профіль</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('user.logout') }}">Вихід</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('user.login') }}">Вхід</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('user.register') }}">Реєстрація</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  

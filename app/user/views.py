@@ -1,8 +1,30 @@
-from flask import request, session, redirect, url_for,render_template, make_response
+from flask import request, session, redirect, url_for, render_template, make_response
 from flask import flash
 from . import user_bp
 from datetime import timedelta, datetime
 from .models import User
+from .form import RegistrationForm, LoginForm
+from app import db, bcrypt
+from flask_login import login_user, logout_user, login_required, current_user
+
+
+@user_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('Registration successful!', 'success')
+        return redirect(url_for('.login'))
+    return render_template('user/register.html', form=form)
+
+
+@user_bp.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    return render_template('user/account.html',user=current_user)
 
 @user_bp.route("/profile", methods=['GET','POST'])
 def get_profile():
@@ -35,25 +57,30 @@ def get_profile():
             return response
         return render_template("user/profile.html", user_name=user_name, color_scheme=color_scheme)
     return redirect(url_for("user.login"))
+@user_bp.route('/all_register_account')
+def get_accounts():
+    stmt= db.select(User).order_by(User.id)
+    accounts = db.session.scalars(stmt).all()
+    return render_template("user/all_register_account.html", accounts=accounts)
 
 @user_bp.route("/login", methods=['GET','POST'])
 def login():
-    if request.method == "POST":
-        username = request.form.get("login")
-        password = request.form.get("password")
-        correct_username = "user"
-        correct_password = "password"
-        if correct_password == password and correct_username == username:
-            session["user"] = username
-            return redirect(url_for("user.get_profile"))
+    if current_user.is_authenticated:
+        return redirect(url_for("user.account"))
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        user = User.query.filter_by(email=email).first()
+        if user and bcrypt.check_password_hash(user.password,form.password.data):
+            login_user(user)
+            return redirect(url_for("user.account"))
         else:
             flash("Invalid: Не вірний логін або пароль.")
-            return render_template("user/logIn.html")
-    return render_template("user/logIn.html")
+    return render_template("user/login.html",form=form)
 
 @user_bp.route("/logout")
 def logout():
-    session.pop("user",None)
+    logout_user()
     return redirect(url_for('user.get_profile'))
 
 @user_bp.route("/set_color/<scheme>")
