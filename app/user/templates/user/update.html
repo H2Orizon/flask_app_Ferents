@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+{% from 'form_macros.html' import render_field %}
+{% block title%}Update{% endblock %}
+    {% block content%}
+    <h1>Update user date</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ render_field(form.username,"form-control") }}
+        {{ render_field(form.email,"form-control") }}
+        {{ render_field(form.about_me,"form-control") }}
+        {{ render_field(form.img_file,"") }}
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+{% endblock %}

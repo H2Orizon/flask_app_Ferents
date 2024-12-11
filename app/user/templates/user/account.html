@@ -1,8 +1,40 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 
-{% block title%}profile{% endblock %}
-{% block content%}
-    <h1>Ласкаво просимо, {{user.username}}</h1>
-    <h1>{{user.email}}</h1>
-    <a class="btn w-1 btn-danger" href="{{url_for('user.logout')}}">logout</a>
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <section class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6 text-center">
+                <!-- Заголовок профілю -->
+                <h1 class="mb-4">Welcome, {{ user.username }}!</h1>
+
+                <!-- Інформація про профіль -->
+                <div class="card shadow-lg p-4">
+                    <div class="profile-info text-center">
+                        <img src="{{ url_for('.static', filename='images/profiles/' + user.img_file) }}" 
+                             alt="Profile Picture" 
+                             class="profile-image rounded-circle mb-3" 
+                             width="150" 
+                             height="150">
+                        <p><strong>Username:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>About me:</strong> {{ user.about_me }}</p>
+                        {% if current_user.is_authenticated %}
+                        <p><strong>Last seen at:</strong> Now is active</p>
+                        {% else %}
+                        <p><strong>Last seen at:</strong> {{ user.last_seen }}</p>
+                        {%endif%}
+                    </div>
+
+                    <!-- Кнопки для виходу та оновлення профілю -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a class="btn btn-danger" href="{{ url_for('user.logout') }}">Logout</a>
+                        <a class="btn btn-primary" href="{{ url_for('user.update_account') }}">Update Account</a>
+                        <a class="btn btn-primary" href="{{ url_for('user.change_password') }}">Change password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
