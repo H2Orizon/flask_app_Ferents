@@ -7,7 +7,6 @@ from app import login_manager
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 class User(db.Model, UserMixin):
     __tablename__ ='user'
     
@@ -18,6 +17,11 @@ class User(db.Model, UserMixin):
     img_file = db.Column(db.String(20), nullable=True, default="Default.png")
     about_me = db.Column(db.Text, nullable=True, default="")
     last_seen = db.Column(db.DateTime, default=dt.now())
-
+    
     def __repr__(self):
         return f"User('{self.email}')"
+    
+class Uses(db.Model):
+    __tablename__ ='uses'
+    id = db.Column(db.Integer, primary_key=True)
+    

@@ -30,3 +30,4 @@ class Tag(db.Model):
     name = db.Column(db.String(30), unique=True, nullable=False)
 
     posts = db.relationship('Post', secondary=post_tags, back_populates='tags')
+    

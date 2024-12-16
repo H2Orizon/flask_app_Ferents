@@ -1,10 +1,9 @@
 from flask import request, session, redirect, url_for, render_template, make_response, current_app
 from flask import flash
 from . import user_bp
-from datetime import timedelta
+from datetime import timedelta,datetime
 from .models import User
 from .form import RegistrationForm, LoginForm, UpdateForm,ChangePasswordForm
-from datetime import datetime
 from app import db, bcrypt
 from werkzeug.utils import secure_filename
 from flask_login import login_user, logout_user, login_required, current_user

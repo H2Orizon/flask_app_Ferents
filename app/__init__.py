@@ -24,7 +24,7 @@ def create_app(config_name = "config"):
     migrate.init_app(app, db)
 
     with app.app_context():
-        db.create_all()
+
         from . import views
 
         from .posts import post_bp
@@ -32,7 +32,11 @@ def create_app(config_name = "config"):
 
         from .user import user_bp
         app.register_blueprint(user_bp)
+        from .films import films_bp
+        app.register_blueprint(films_bp)
         from app.posts.models import Post
+
+        # db.create_all()
         
 
     return app

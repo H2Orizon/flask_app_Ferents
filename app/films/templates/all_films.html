@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Films {% endblock %}
+{% from 'form_macros.html' import render_field %}
+{% block content %}
+    <h1>Films</h1>
+
+    <form class="mb-4" method="get">
+        {{ form.hidden_tag() }}<br>
+        
+        {{ render_field(form.serch,"form-control", placeholder="Enter title") }}
+        {{ render_field(form.sort,"form-control") }}
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+
+
+    <a href="{{ url_for('films.creat_films') }}" class="btn btn-primary mb-3">Create Film</a>
+
+    <div class="row">
+        {% for film in films %}
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card">
+                    <img src="{{ url_for('.static', filename='images/films/' + film.img_file) }}" class="card-img-top" alt="Film Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ film.name }}</h5>
+                        <p class="card-text">
+                            Duration: {{ film.duration }}<br>
+                            Added on: {{ film.add_to_db.strftime('%Y-%m-%d %H:%M:%S') }}
+                        </p>
+                        <a href="{{ url_for('films.get_film', id=film.id) }}" class="btn btn-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
